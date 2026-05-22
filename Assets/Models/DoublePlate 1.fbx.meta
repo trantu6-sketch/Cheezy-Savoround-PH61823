@@ -8,7 +8,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: plate
-    second: {fileID: 2100000, guid: 9193f672fc2fc914faec6f5ef0778c36, type: 2}
+    second: {fileID: 2100000, guid: 74852ee1d3ca63848abbc42528ac979a, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
