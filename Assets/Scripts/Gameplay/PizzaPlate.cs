@@ -1,7 +1,18 @@
 using UnityEngine;
 
+public enum PizzaType
+{
+    Pho_mai,
+    Xuc_xich,
+    Mi_tom,
+    Bun_dau_mam_tom
+}
+
 public class PizzaPlate : MonoBehaviour
 {
+    [Tooltip("Dùng tạm để test thuật toán tuần 1")]
+    public PizzaType Type = PizzaType.Pho_mai;
+    
     private Vector3 _originalPosition;
     private Transform _originalParent;
 
