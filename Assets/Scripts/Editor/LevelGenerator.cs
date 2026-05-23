@@ -19,7 +19,12 @@ public class LevelGenerator
             int w = i <= 10 ? 3 : (i <= 20 ? 3 : 4);
             int h = i <= 10 ? 3 : (i <= 20 ? 4 : 4);
             
-            LevelData data = new LevelData { levelId = i, gridWidth = w, gridHeight = h };
+            LevelData data = new LevelData { 
+                levelId = i, 
+                gridWidth = w, 
+                gridHeight = h,
+                holdSlotCount = 3 
+            };
             string json = JsonUtility.ToJson(data, true);
             
             string filePath = Path.Combine(folderPath, $"level_{i}.json");

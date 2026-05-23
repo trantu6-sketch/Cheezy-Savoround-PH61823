@@ -1,5 +1,6 @@
 {
   "levelId": 1,
   "gridWidth": 4,
-  "gridHeight": 6
+  "gridHeight": 6,
+  "holdSlotCount": 2
 }
