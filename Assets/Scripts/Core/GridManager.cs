@@ -30,10 +30,17 @@ public class GridManager : MonoBehaviour
                 bool isEven = (x + y) % 2 == 0;
                 GameObject prefabToUse = isEven ? _cellPrefabLight : _cellPrefabDark;
                 
-                GameObject cell = Instantiate(prefabToUse, worldPos, Quaternion.identity, transform);
-                cell.name = $"Cell_{x}_{y}";
+                GameObject cellObj = Instantiate(prefabToUse, worldPos, Quaternion.identity, transform);
+                cellObj.name = $"Cell_{x}_{y}";
                 
-                _gridCells[gridPos] = cell;
+                GridCell cellComp = cellObj.GetComponent<GridCell>();
+                if (cellComp == null) 
+                {
+                    cellComp = cellObj.AddComponent<GridCell>();
+                }
+                cellComp.Initialize(gridPos);
+                
+                _gridCells[gridPos] = cellObj;
             }
         }
         

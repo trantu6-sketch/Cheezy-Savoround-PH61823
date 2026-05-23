@@ -6,6 +6,7 @@ public class TrayManager : MonoBehaviour
     [SerializeField] private GameObject _slotPrefabLight; // Prefab ô khay màu sáng (chẵn)
     [SerializeField] private GameObject _slotPrefabDark;  // Prefab ô khay màu tối (lẻ)
     [SerializeField] private float _slotSpacing = 1.2f; // Khoảng cách giữa các ô khay
+    [SerializeField] private GameObject _pizzaPlatePrefab; // Prefab đĩa pizza
 
     // Lưu trữ các ô khay
     private List<GameObject> _slots = new List<GameObject>();
@@ -28,6 +29,17 @@ public class TrayManager : MonoBehaviour
             GameObject slot = Instantiate(prefabToUse, worldPos, Quaternion.identity, transform);
             slot.name = $"TraySlot_{i}";
             
+            if (_pizzaPlatePrefab != null)
+            {
+                GameObject plateObj = Instantiate(_pizzaPlatePrefab, slot.transform.position, Quaternion.identity, slot.transform);
+                PizzaPlate plate = plateObj.GetComponent<PizzaPlate>();
+                if (plate == null)
+                {
+                    plate = plateObj.AddComponent<PizzaPlate>();
+                }
+                plate.Initialize(slot.transform);
+            }
+
             _slots.Add(slot);
         }
         
