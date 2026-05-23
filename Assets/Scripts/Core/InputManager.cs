@@ -43,8 +43,7 @@ public class InputManager : MonoBehaviour
         Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
-            PizzaPlate plate = hit.collider.GetComponent<PizzaPlate>();
-            if (plate != null)
+            if (hit.collider.TryGetComponent(out PizzaPlate plate))
             {
                 _draggedPlate = plate;
                 _draggedPlate.PickUp();
@@ -59,6 +58,9 @@ public class InputManager : MonoBehaviour
         {
             Vector3 worldPos = ray.GetPoint(distance);
             _draggedPlate.DragTo(worldPos);
+
+            // Vẽ gizmo (Debug Ray) màu cam đậm hướng xuống dưới khi đang kéo
+            Debug.DrawRay(_draggedPlate.transform.position, Vector3.down * 5f, new Color(1.0f, 0.5f, 0.0f));
         }
     }
 
@@ -66,10 +68,15 @@ public class InputManager : MonoBehaviour
     {
         // Bắn tia từ đĩa xuống dưới để tìm lưới
         Ray ray = new Ray(_draggedPlate.transform.position, Vector3.down);
-        if (Physics.Raycast(ray, out RaycastHit hit))
+        
+        // Vẽ gizmo (Debug Ray) màu cam đậm lưu lại 2 giây để dễ quan sát khi nhả chuột
+        Debug.DrawRay(ray.origin, ray.direction * 5f, new Color(1.0f, 0.5f, 0.0f), 2f);
+
+        // Dùng RaycastAll để tia có thể đi xuyên qua đĩa đang cản đường (nếu đĩa cũ có collider to che mất)
+        RaycastHit[] hits = Physics.RaycastAll(ray);
+        foreach (var hit in hits)
         {
-            GridCell cell = hit.collider.GetComponent<GridCell>();
-            if (cell != null && !cell.IsOccupied)
+            if (hit.collider.TryGetComponent(out GridCell cell) && !cell.IsOccupied)
             {
                 // Snap vào ô lưới
                 cell.PlacePlate(_draggedPlate);
